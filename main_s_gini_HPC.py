@@ -137,8 +137,9 @@ def main_s_gini_HPC(scenario,FLAG_acq_option,FLAG_ret_option, FLAG_selfret_optio
     # time series of hurricanes  
     hurr_sim = stru['stru']['hurr_sim'][0,0]
 
-    hurr_sim_dummy = pd.read_csv(dd + 'hurr_sim_dummy.csv', header=None)
-    hurr_sim_dummy = hurr_sim_dummy.to_numpy()
+    # this is for dummy hurricane scenarios
+    #hurr_sim_dummy = pd.read_csv(dd + 'hurr_sim_dummy.csv', header=None)
+    #hurr_sim_dummy = hurr_sim_dummy.to_numpy()
     
     # zone IDs for households
     ho_areaID_LR = np.squeeze(stru['stru']['ho_areaID_LR'][0,0])  # area ID
@@ -267,7 +268,7 @@ def main_s_gini_HPC(scenario,FLAG_acq_option,FLAG_ret_option, FLAG_selfret_optio
     ## •	Call function “Func_cal_exp_fld.py” to calculate hurricane flood experience
     """ FLOOD EXPERIENCE """
     
-    ho_lastEXP_fld_LR_SCEN30YEAR, ho_lastEXP_fld_SFHA_SCEN30YEAR, ho_cumEXP_fld_LR_SCEN30YEAR, ho_cumEXP_fld_SFHA_SCEN30YEAR = Func_cal_exp_fld(scenario, hurr_sim_dummy, stru, hoNum_LR, hoNum_SFHA, zones, hurr, years)
+    ho_lastEXP_fld_LR_SCEN30YEAR, ho_lastEXP_fld_SFHA_SCEN30YEAR, ho_cumEXP_fld_LR_SCEN30YEAR, ho_cumEXP_fld_SFHA_SCEN30YEAR = Func_cal_exp_fld(scenario, hurr_sim, stru, hoNum_LR, hoNum_SFHA, zones, hurr, years)
     print(f'{time.process_time() - np.array(t)[0]:.1f} s\n--\n')
     
     
@@ -305,9 +306,9 @@ def main_s_gini_HPC(scenario,FLAG_acq_option,FLAG_ret_option, FLAG_selfret_optio
         
         # get hurricane IDs for this year this scenario
         if year == 1:
-            hurr_codes = hurr_sim_dummy[scenario-1, year-1]
+            hurr_codes = hurr_sim[scenario-1, year-1]
         else:
-            hurr_codes = hurr_sim_dummy[scenario-1, year-2] #TODO: testing year
+            hurr_codes = hurr_sim[scenario-1, year-2] #TODO: testing year
         
         print('simulating Hurricane', hurr_codes)
 
@@ -810,7 +811,7 @@ def main_s_gini_HPC(scenario,FLAG_acq_option,FLAG_ret_option, FLAG_selfret_optio
         else:
         
             # Calculate hs
-            temp = hurr_sim_dummy[scenario-1, year-1]
+            temp = hurr_sim[scenario-1, year-1]
             hs = np.mod(np.floor([temp/1e8, temp/1e6, temp/1e4, temp/1e2, temp]), 100)
             hs = hs[hs != 0]
             hs = hs.astype(int) - 1
