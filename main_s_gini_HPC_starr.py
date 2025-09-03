@@ -104,8 +104,9 @@ def main_s_gini_HPC(scenario,budget, FLAG_acq_option,FLAG_ret_option, FLAG_selfr
     # time series of hurricanes  
     hurr_sim = stru['stru']['hurr_sim'][0,0]
 
-    hurr_sim_dummy = pd.read_csv(dd + 'hurr_sim_dummy.csv', header=None)
-    hurr_sim_dummy = hurr_sim_dummy.to_numpy()
+    # this is for dummy hurricane scenarios
+    #hurr_sim_dummy = pd.read_csv(dd + 'hurr_sim_dummy.csv', header=None)
+    #hurr_sim_dummy = hurr_sim_dummy.to_numpy()
 
     # lookup tables for loss and cost data
     L_au3D4D = scipy.io.loadmat(dd + 'Data_L_au3D4D.mat')
@@ -229,7 +230,7 @@ def main_s_gini_HPC(scenario,budget, FLAG_acq_option,FLAG_ret_option, FLAG_selfr
     ## •	Call function “Func_cal_exp_fld.py” to calculate hurricane flood experience
     """ FLOOD EXPERIENCE """
     
-    ho_lastEXP_fld_LR_SCEN30YEAR, ho_lastEXP_fld_SFHA_SCEN30YEAR, ho_cumEXP_fld_LR_SCEN30YEAR, ho_cumEXP_fld_SFHA_SCEN30YEAR = Func_cal_exp_fld(scenario, hurr_sim_dummy, stru, hoNum_LR, hoNum_SFHA, zones, hurr, years)
+    ho_lastEXP_fld_LR_SCEN30YEAR, ho_lastEXP_fld_SFHA_SCEN30YEAR, ho_cumEXP_fld_LR_SCEN30YEAR, ho_cumEXP_fld_SFHA_SCEN30YEAR = Func_cal_exp_fld(scenario, hurr_sim, stru, hoNum_LR, hoNum_SFHA, zones, hurr, years)
     print(f'{time.process_time() - np.array(t)[0]:.1f} s\n--\n')
     
     
